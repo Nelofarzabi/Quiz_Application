@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
 class Answer extends StatelessWidget {
-  final VoidCallback answerQustion;
-  Answer(this.answerQustion);
 
+  final VoidCallback answerQustion;
+  final String answerText ;
+  const Answer(this.answerQustion , this.answerText, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  Container(
       width: double.infinity,
       child:  ElevatedButton(
               onPressed: answerQustion,
-              child: Text('Answer 1'),
+              child: Text(answerText,  style: TextStyle(color: Colors.white , fontSize: 20),),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue
+              primary: Colors.blue,
               )
-            ),
+       ),
     );
   }
 }
+

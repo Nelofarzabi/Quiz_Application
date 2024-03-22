@@ -1,34 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/answers.dart';
-import 'package:quiz_app/questions.dart';
+import 'package:quiz_app/answer.dart';
+import 'package:quiz_app/question.dart';
+
 
 void main() {
-  runApp(  MyApp());
+  runApp( const  MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  
-  MyApp({Key? key}) : super(key: key);
-
+  const MyApp({Key? key}) : super(key: key);
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
 int questionsIndex = 0 ;
-
-  void answerQustion(){
-    setState(() {
-      questionsIndex = questionsIndex + 1 ;
-    });
-    
-    print('button clicked');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    var questions = [
+ var questions = [
       {
         'questionText' : 'What is your fav color', 
         'answers' : ['black' , 'green' , 'red']
@@ -42,24 +30,41 @@ int questionsIndex = 0 ;
         'answers' : ['spring' , 'summer' , 'fall']
       }
     ];
+  void answerQustion(){
+    setState(() {
+      questionsIndex = questionsIndex + 1 ;
+    });
+    if(questionsIndex < questions.length){
+      print('We have more  questions');
+    }
+    else {
+      print('you did it !');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+   
 
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.blue, // Set a custom primary color for the theme
+        primaryColor: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('My First App'),
         ),
-        body:  Column(
+        body: questionsIndex < questions.length ?  Column(
           children:  [
-            Questions(questions[questionsIndex]),
-            Answer(answerQustion),
-            Answer(answerQustion),
-            Answer(answerQustion),
+            Questions(questions[questionsIndex]['questionText'] as String),
+            ...(questions[questionsIndex]['answers'] as List<String>).map((answer){
+              return Answer(answerQustion , answer);
+            }).toList(),
           ],
-        ),
+        ) : const Center(child: Text('You did it!' , style: TextStyle(fontSize: 30 , ),),)
       ),
     );
   }
 }
+
